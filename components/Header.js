@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
+import classNames from "classnames";
 
 const Header = () => {
   const router = useRouter();
@@ -20,16 +21,26 @@ const Header = () => {
     },
   ];
 
+  const getLinkClassName = (pathname, href) => {
+    return classNames("header__nav-link", {
+      "header__nav-link--active": pathname === href,
+    });
+  };
+
   return (
-    <header>
-      <div className="container">
-        <nav>
+    <header className="header">
+      <div className="header__container container">
+        <Link href="/" className="header__logo">
+          <img src="/logo.png" alt="Logo" />
+        </Link>
+        <nav className="header__nav">
           <ul>
             {navigationItems.map((item, index) => (
-              <li key={index}>
+              <li key={index} className="header__nav-item">
                 <Link
                   href={item.href}
-                  className={pathname === item.href ? "active" : ""}
+                  title={item.label}
+                  className={getLinkClassName(pathname, item.href)}
                 >
                   {item.label}
                 </Link>
